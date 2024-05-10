@@ -15,21 +15,21 @@ class CompaAdminDisplay(admin.ModelAdmin):
     search_fields = ('nickname',)
     list_per_page = 10
 
-    # def changelist_view(self, request, extra_context=None):
-    #     # aggregate Compa professions
-    #     chart_data = (
-    #         Compa.objects.annotate(Count("sexo", distinct=True),
-    #                                Count("profession__categoriaProfesion__name", distinct=True),
-    #                                Count("edad", distinct=True))
-    #         .values("id", "sexo", "profession__categoriaProfesion__name", "edad")
-    #         .order_by("-edad")
-    #     )
-    #     # Serialize and attach the chart data to the template context
-    #     as_json = json.dumps(list(chart_data), cls=DjangoJSONEncoder)
-    #     print("Json %s" % as_json)
-    #     extra_context = extra_context or {"chart_data": as_json}
-    #     # Call the superclass changelist_view to render the page
-    #     return super().changelist_view(request, extra_context=extra_context)
+    def changelist_view(self, request, extra_context=None):
+        # aggregate Compa professions
+        chart_data = (
+            Compa.objects.annotate(Count("sexo", distinct=True),
+                                   Count("profession__categoriaProfesion__name", distinct=True),
+                                   Count("edad", distinct=True))
+            .values("id", "sexo", "profession__categoriaProfesion__name", "edad")
+            .order_by("-edad")
+        )
+        # Serialize and attach the chart data to the template context
+        as_json = json.dumps(list(chart_data), cls=DjangoJSONEncoder)
+        print("Json %s" % as_json)
+        extra_context = extra_context or {"chart_data": as_json}
+        # Call the superclass changelist_view to render the page
+        return super().changelist_view(request, extra_context=extra_context)
 
 
 class CelulaAdminDisplay(admin.ModelAdmin):
