@@ -1,0 +1,278 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "admin/css/changelists.css" %}">
+{% if cl.formset %}
+<link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
+{% endif %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"/>
+<script src= "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"> </script>
+{% if cl.formset or action_form %}
+<script src="{% url 'admin:jsi18n' %}"></script>
+{% endif %}
+{{ media.css }}
+{% if not actions_on_top and not actions_on_bottom %}
+<style>
+    #changelist table thead th:first-child {width: inherit}
+</style>
+{% endif %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<script src="{% static 'admin/js/filters.js' %}" defer></script>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-list{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{{ cl.opts.app_config.verbose_name }}</a>
+    &rsaquo; {{ cl.opts.verbose_name_plural|capfirst }}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block coltype %}{% endblock %}
+
+{% block content %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const chartData = {{ chart_data | safe }};
+
+        if (!chartData) {
+            document.getElementById('graficas').setAttribute('style', 'display:none');
+        } else {
+        console.log(chartData);
+        const edadesFrecuencia = [];
+        chartData.forEach(item => {
+            const edad = item.edad;
+            edadesFrecuencia[edad] = edadesFrecuencia[edad] ? edadesFrecuencia[edad] + 1 : 1;
+        });
+
+            const edades = Object.keys(edadesFrecuencia);
+            const frecuenciasEdades = Object.values(edadesFrecuencia);
+
+            const ctxEdad = document.getElementById('edadesChart').getContext('2d');
+            var edadesChart = new Chart(ctxEdad, {
+                type: 'pie',
+                data: {
+                    labels: edades.map(String),
+                    datasets: [{
+                        label: 'Frecuencia de Edades',
+                        data: frecuenciasEdades,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)',
+                            'rgba(62, 102, 144, 0.5)',
+                            'rgba(12,244,78,0.5)',
+                            'rgba(192, 20, 244, 0.5)',
+                            'rgba(107,70,33,0.5)',
+                            'rgba(34,143,40,0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(62, 102, 144, 1)',
+                            'rgba(12,244,78,1)',
+                            'rgba(192, 20, 244, 1)',
+                            'rgba(107,70,33,1)',
+                            'rgba(34,143,40,1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: true,
+                        text: 'Distribución de Edades'
+                    }
+                }
+            });
+
+            const sexoFrecuencia = [];
+            chartData.forEach(item => {
+                const sexo = item.sexo;
+                console.log("sexo: " + sexo);
+                sexoFrecuencia[sexo] = sexoFrecuencia[sexo] ? sexoFrecuencia[sexo] + 1 : 1;
+            });
+
+            const sexos = Object.keys(sexoFrecuencia);
+            const frecuenciasSexos = Object.values(sexoFrecuencia);
+
+            const ctxSexo = document.getElementById('sexoChart').getContext('2d');
+            var sexoChart = new Chart(ctxSexo, {
+                type: 'pie',
+                data: {
+                    labels: sexos.map(String),
+                    datasets: [{
+                        label: 'Frecuencia de Edades',
+                        data: frecuenciasSexos,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: true,
+                        text: 'Distribución de Sexos'
+                    }
+                }
+            });
+
+            const tipoProfesionFrecuencia = [];
+            chartData.forEach(item => {
+                const categoriaProfesionName = item.profession__categoriaProfesion__name;
+                console.log("sexo: " + categoriaProfesionName);
+                tipoProfesionFrecuencia[categoriaProfesionName] = tipoProfesionFrecuencia[categoriaProfesionName] ? tipoProfesionFrecuencia[categoriaProfesionName] + 1 : 1;
+            });
+
+            const tipoProfesion = Object.keys(tipoProfesionFrecuencia);
+            const frecuenciasTipoProfesion = Object.values(tipoProfesionFrecuencia);
+
+            const ctxTipoProfesion = document.getElementById('tipoProfesionChart').getContext('2d');
+            var sexoChart = new Chart(ctxTipoProfesion, {
+                type: 'pie',
+                data: {
+                    labels: tipoProfesion.map(String),
+                    datasets: [{
+                        label: 'Frecuencia de Tipo de profesion',
+                        data: frecuenciasTipoProfesion,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: true,
+                        text: 'Distribución de Tipos de profesion'
+                    }
+                }
+            });
+
+
+            console.log(chartData);
+        }
+
+    });
+
+</script>
+
+{% if chart_data %}
+<div id="graficas" class="row">
+    <div class="col col-md-5">
+        <canvas id="edadesChart" width="200" height="250"></canvas>
+    </div>
+    <div class="col col-md-5">
+        <canvas id="sexoChart" width="200" height="250"></canvas>
+    </div>
+    <div class="col col-md-5">
+        <canvas id="tipoProfesionChart" width="200" height="250"></canvas>
+    </div>
+</div>
+<br/>
+<hr/>
+<br/>
+{% endif %}
+<div id="content-main">
+    {% block object-tools %}
+    <ul class="object-tools">
+        {% block object-tools-items %}
+        {% change_list_object_tools %}
+        {% endblock %}
+    </ul>
+    {% endblock %}
+    {% if cl.formset and cl.formset.errors %}
+    <p class="errornote">
+        {% blocktranslate count counter=cl.formset.total_error_count %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktranslate %}
+    </p>
+    {{ cl.formset.non_form_errors }}
+    {% endif %}
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+        <div class="changelist-form-container">
+            {% block search %}{% search_form cl %}{% endblock %}
+            {% block date_hierarchy %}{% if cl.date_hierarchy %}{% date_hierarchy cl %}{% endif %}{% endblock %}
+
+            <form id="changelist-form" method="post"{% if cl.formset and cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %} novalidate>{% csrf_token %}
+                {% if cl.formset %}
+                <div>{{ cl.formset.management_form }}</div>
+                {% endif %}
+
+                {% block result_list %}
+                {% if action_form and actions_on_top and cl.show_admin_actions %}{% admin_actions %}{% endif %}
+                {% result_list cl %}
+                {% if action_form and actions_on_bottom and cl.show_admin_actions %}{% admin_actions %}{% endif %}
+                {% endblock %}
+                {% block pagination %}{% pagination cl %}{% endblock %}
+            </form>
+        </div>
+        {% block filters %}
+        {% if cl.has_filters %}
+        <div id="changelist-filter">
+            <h2>{% translate 'Filter' %}</h2>
+            {% if cl.is_facets_optional or cl.has_active_filters %}<div id="changelist-filter-extra-actions">
+            {% if cl.is_facets_optional %}<h3>
+            {% if cl.add_facets %}<a href="{{ cl.remove_facet_link }}" class="hidelink">{% translate "Hide counts" %}</a>
+            {% else %}<a href="{{ cl.add_facet_link }}" class="viewlink">{% translate "Show counts" %}</a>{% endif %}
+        </h3>{% endif %}
+            {% if cl.has_active_filters %}<h3>
+            <a href="{{ cl.clear_all_filters_qs }}">&#10006; {% translate "Clear all filters" %}</a>
+        </h3>{% endif %}
+        </div>{% endif %}
+            {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+        </div>
+        {% endif %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
