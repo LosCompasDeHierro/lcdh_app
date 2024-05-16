@@ -1,0 +1,61 @@
+{% for pais in paises %}
+  <div id="{{pais.sectionname}}" class="bg-color get-a-quote black text-center">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">{{pais.name}}</div>
+          </div>
+      </div>
+  </div>
+  {% for celula in pais.celula_set.all %}
+    {% if not celula.hideInMainPage %}
+      <section class="page-section" data-animation="fadeInUp">
+          <div class="container">
+              <div class="row">
+                  <div data-appear-animation="fadeInLeft"
+                       class="col-md-6 text-center appear-animation fadeInLeft appear-animation-visible">
+                      <!-- Image -->
+                      <img width="960" height="960" alt="cdmx" src="images/{{celula.logo}}">
+                  </div>
+                  <div class="col-md-6">
+                      <div class="section-title text-left">
+                          <!-- Title -->
+                          <h2 class="title">{{celula.name}}</h2>
+                      </div>
+                      <!-- Content -->
+                      {{celula.description|safe}}
+                      <!-- Features -->
+                      {% if celula.facebook or celula.instagram %}
+                      <div class="row responsive-features top-pad-20 text-center">
+                          <!-- Features 1 -->
+                          {% if celula.facebook %}
+                          <div class="col-xs-6">
+                              <a target="_blank" href="{{celula.facebook}}">
+                                  <!-- Title And Content -->
+                                  <span class="icon-facebook text-color"></span>
+                                  <h5>Facebook</h5>
+                              </a>
+                          </div>
+                          {% endif %}
+                          <!-- Features 1 -->
+                          <!-- Features 3 -->
+                          {% if celula.instagram %}
+                          <div class="col-xs-6">
+                              <a target="_blank" href="{{celula.instagram}}">
+                                  <!-- Title And Content -->
+                                  <span class="icon-instagram text-color"></span>
+                                  <h5>Instagram</h5>
+                              </a>
+                          </div>
+                          {% endif %}
+                          <!-- Features 3 -->
+                      </div>
+                      <!-- Features -->
+                      {% endif %}
+                  </div>
+              </div>
+              <hr>
+          </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+{% endfor %}
