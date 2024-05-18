@@ -37,6 +37,7 @@ class CelulaAdminDisplay(admin.ModelAdmin):
     list_filter = ('country',)
     search_fields = ('name',)
     list_per_page = 15
+    filter_horizontal = ('staff',)
 
 
 class AnuncioAdminDisplay(admin.ModelAdmin):

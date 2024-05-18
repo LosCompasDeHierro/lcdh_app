@@ -27,7 +27,7 @@ class Celula(models.Model):
     hideInMainPage = models.BooleanField(default=False, verbose_name="Ocultar de la página principal")
     representante = models.OneToOneField("Compa", on_delete=models.SET_NULL, null=True, blank=True,
                                          related_name='representante_del_mesfk')
-    staff = models.ForeignKey("Compa", on_delete=models.SET_NULL, null=True, blank=True, related_name='stafffk')
+    staff = models.ManyToManyField("Compa", null=True, blank=True, related_name='stafffk')
     compaDelMes = models.OneToOneField("Compa", on_delete=models.SET_NULL, null=True, blank=True,
                                        related_name='compa_del_mesfk')
 
