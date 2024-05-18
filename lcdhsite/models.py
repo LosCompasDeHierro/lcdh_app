@@ -27,7 +27,7 @@ class Celula(models.Model):
     hideInMainPage = models.BooleanField(default=False, verbose_name="Ocultar de la página principal")
     representante = models.OneToOneField("Compa", on_delete=models.SET_NULL, null=True, blank=True,
                                          related_name='representante_del_mesfk')
-    staff = models.ManyToManyField("Compa", null=True, blank=True, related_name='stafffk')
+    staff = models.ManyToManyField("Compa", blank=True, related_name='stafffk')
     compaDelMes = models.OneToOneField("Compa", on_delete=models.SET_NULL, null=True, blank=True,
                                        related_name='compa_del_mesfk')
 
@@ -69,7 +69,7 @@ class Profesion(models.Model):
 
 class Compa(models.Model):
     celula = models.ForeignKey(Celula, on_delete=models.CASCADE, null=True, verbose_name="Célula")
-    edad = models.IntegerField(blank=True, default=0, verbose_name="Edad del compa")
+    edad = models.IntegerField(blank=True, default=0, verbose_name="Edad del compa", help_text="años")
     sexo = models.CharField(max_length=1, blank=True, default='M', verbose_name="Sexo del compa")
     nickname = models.CharField(max_length=100, blank=True, verbose_name="Apodo del compa")
     name = models.CharField(max_length=100, verbose_name="Nombre del compa")
