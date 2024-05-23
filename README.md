@@ -3,6 +3,13 @@ Application at the service of the global iron comrades community.
 ## 🤝 Contribuidores
 [![Contribuidores](https://contrib.rocks/image?repo=LosCompasDeHierro/lcdh_app)](https://github.com/LosCompasDeHierro/lcdh_app/graphs/contributors)
 
+# Siguientes Pasos
+   1. Clona el repositorio: git clone https://github.com/LosCompasDeHierro/lcdh_app
+   2. Instala las dependencias: pip install -r requirements.txt
+   3. Ejecuta las migraciones: python manage.py migrate
+   4. Inicia el servidor: python manage.py runserver
+
+
 # Estructura del Proyecto y Explicación de Archivos
 
 1. **lcdh_app/**
