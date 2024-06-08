@@ -1,8 +1,7 @@
 from django.shortcuts import render
+
 from .models import *
 
-
-# Create your views here.
 def home(request):
     paises = Country.objects.all()
     anuncios = Anuncio.objects.all()

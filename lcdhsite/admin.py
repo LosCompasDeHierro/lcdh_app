@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.db.models import *
+from django.views.decorators.vary import vary_on_cookie
+
 from .models import Country, Celula, Anuncio, Compa, CategoriaProfesion, Profesion, AsistenciaCompaCelula
 import json
 from django.core.serializers.json import DjangoJSONEncoder
@@ -20,6 +22,7 @@ class CompaAdminDisplay(admin.ModelAdmin):
     search_fields = ('nickname',)
     list_per_page = 10
 
+    @vary_on_cookie
     def changelist_view(self, request, extra_context=None):
         # aggregate Compa professions
         chart_data = (
