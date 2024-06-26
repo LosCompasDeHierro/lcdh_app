@@ -77,7 +77,7 @@ CACHES = {
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_SECONDS = 15 * 60
 # use a unique prefix for the cache keys so that the same cache can be used by multiple processes
-CACHE_MIDDLEWARE_KEY_PREFIX = ''
+CACHE_MIDDLEWARE_KEY_PREFIX = 'lcdh'
 
 ROOT_URLCONF = 'lcdh_app.urls'
 
