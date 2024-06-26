@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+{% block extrahead %}
+    <style>
+        body{background: black;}
+        .module h2, .module caption, .inline-group h2, #content-related .module h2, #toolbar, #changelist .paginator, #header {
+            width: auto;
+            height: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            /* background: var(--header-bg); */
+            background: #232323;
+            color: var(--header-color);
+            overflow: hidden;
+        }
+
+        .module, #nav-sidebar {
+            background: #232323;
+        }
+
+        .actions,.breadcrumbs {
+            background-color: #232323 !important;
+        }
+
+
+    </style>
+{% endblock %}

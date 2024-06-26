@@ -49,6 +49,19 @@
                           {% endif %}
                           <!-- Features 3 -->
                       </div>
+
+                      {% if celula.compaDelMes %}
+                          <div class="row responsive-features top-pad-20 text-center">
+                              {{ celula.compaDelMes.name }}
+                          </div>
+                          <div class="row top-pad-20">
+                              <div class="hexagono center-block">
+                                  <div class="imagem1">
+                                    <img class="imagem2" width="960" height="960" alt="compa del mes {{celula.name}}" src="images/{{celula.compaDelMes.picture}}">
+                                  </div>
+                              </div>
+                          </div>
+                      {% endif %}
                       <!-- Features -->
                       {% endif %}
                   </div>
