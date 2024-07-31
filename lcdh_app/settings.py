@@ -158,3 +158,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'images'
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    print("No local_settings.py found. Using default settings.")
