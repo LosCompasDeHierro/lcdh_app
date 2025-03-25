@@ -15,6 +15,46 @@ Application at the service of the global iron comrades community.
 
 # Estructura del Proyecto y Explicación de Archivos
 
+```
+proyecto/
+├── src/
+│   ├── core/                  # Lógica de negocio
+│   ├── infrastructure/        # Implementaciones concretas
+│   │   ├── database/
+│   │   ├── api/
+│   │   └── repositories/
+│   ├── application/           # Casos de uso
+│   └── shared/                # Utilidades comunes
+├── tests/                     # Pruebas
+├── docker-compose.yml
+├── Dockerfile
+├── .env.example
+└── package.json
+```
+
+russlan
+MunecoInfiel1+
+
+charly
+MunecoInfiel2+
+
+roger
+MunecoInfiel3+
+
+infiel  
+MunecoInfiel4+
+
+
+jazi
+MunecoInfiel5+
+
+sudo usermod -aG lcdh roger
+
+sudo mkdir -p /var/www/lcdh
+sudo chown root:lcdh /var/www/lcdh
+sudo chmod 2775 /var/www/lcdh
+
+
 1. **lcdh_app/**
    - **models.py**: Define las clases de los modelos que representan las tablas de la base de datos. Por ejemplo, si tienes una clase `User`, esta corresponde a una tabla `User` en la base de datos.
    - **views.py**: Contiene las funciones y clases que manejan las solicitudes HTTP y devuelven respuestas. Por ejemplo, una vista puede obtener datos de los modelos y renderizar una plantilla HTML.
