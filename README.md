@@ -4,12 +4,13 @@ Application at the service of the global iron comrades community.
 [![Contribuidores](https://contrib.rocks/image?repo=LosCompasDeHierro/lcdh_app)](https://github.com/LosCompasDeHierro/lcdh_app/graphs/contributors)
 
 # Siguientes Pasos
-   1. Clona el repositorio: git clone https://github.com/LosCompasDeHierro/lcdh_app
-   2. Crea un entorno virtual (better practices): python -m venv lcdh_env
-   3. Activa el entorno virtual: source lcdh_env/bin/activate
-   4. Instala las dependencias: pip install -r requirements.txt
-   5. Ejecuta las migraciones: python manage.py migrate
-   6. Inicia el servidor: python manage.py runserver
+   1. Clona el repositorio: `git clone https://github.com/LosCompasDeHierro/lcdh_app`
+   2. Crea un entorno virtual (better practices): `python -m venv lcdh_env`
+   3. Activa el entorno virtual: `source lcdh_env/bin/activate`
+   4. Instala las dependencias: `pip install -r requirements.txt`
+   5. crea las migraciones `python manage.py makemigrations`
+   6. Ejecuta las migraciones: `python manage.py migrate`
+   7. Inicia el servidor: `python manage.py runserver`
 
 
 # Estructura del Proyecto y Explicación de Archivos
